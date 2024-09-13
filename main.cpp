@@ -4,6 +4,8 @@
 #include <sys/stat.h>
 
 #include "text_data.h"
+#include "utils.h"
+#include "sort_text.h"
 
 int main(int argc, const char *argv[]) {
     TEXT_DATA TextData;
@@ -23,6 +25,7 @@ int main(int argc, const char *argv[]) {
     }
 
     fill_text     (fp, &TextData);
+    bubble_sort   (    &TextData);
     print_text    (    &TextData);
     free_text_data(    &TextData);
 

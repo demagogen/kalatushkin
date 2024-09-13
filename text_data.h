@@ -4,8 +4,8 @@
 struct TEXT_DATA {
     int digits            = 0;
     int lines             = 0;
-    int  *lines_lengths   = NULL;
-    char *text            = NULL;
+    int   *lines_lengths  = NULL;
+    char  *text           = NULL;
     char **lines_pointers = NULL;
 };
 

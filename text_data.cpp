@@ -4,7 +4,10 @@
 #include <stdint.h>
 #include <malloc.h>
 
+
 #include "text_data.h"
+#include "utils.h"
+#include "sort_text.h"
 
 int fill_text(FILE *fp, TEXT_DATA *TextData) {
     assert(fp);
@@ -58,9 +61,18 @@ int fill_lines_pointers(TEXT_DATA *TextData) {
             TextData->lines_pointers[line_pointer_index] =         &(TextData->text[digit_index + 1]  );
             TextData->lines_lengths [line_pointer_index] = strlen( &(TextData->text[digit_index + 1]) );
 
-            line_pointer_index++;
+            for (size_t extra_digit_index = digit_index + 1; extra_digit_index < TextData->lines_lengths[line_pointer_index]; extra_digit_index++) {
+
+                if (TextData->text[extra_digit_index] != ' ' && TextData->text[extra_digit_index] != '\'') {
+
+                    TextData->lines_pointers[line_pointer_index] = &(TextData->text[extra_digit_index]);
+                    break;
+                }
             }
+
+            line_pointer_index++;
         }
+    }
 
     return 0;
 }
@@ -72,9 +84,11 @@ int print_text(TEXT_DATA *TextData) {
     assert(TextData);
 
     for (size_t line_index = 0; line_index < TextData->lines; line_index++) { //works, but almost dont understand why TextData->lines - 1
-        printf("%10p %10d", TextData->lines_pointers[line_index], line_index);
-        fputs(TextData->lines_pointers[line_index], stdout);
-        printf("\n");
+        if (TextData->text[line_index] != '\0' || TextData->text[line_index] != '\n') {
+            printf("%10p %10d", TextData->lines_pointers[line_index], line_index);
+            fputs(TextData->lines_pointers[line_index], stdout);
+            printf("\n");
+        }
     }
 
     return 0;
