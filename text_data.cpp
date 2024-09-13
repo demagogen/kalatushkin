@@ -61,15 +61,6 @@ int fill_lines_pointers(TEXT_DATA *TextData) {
             TextData->lines_pointers[line_pointer_index] =         &(TextData->text[digit_index + 1]  );
             TextData->lines_lengths [line_pointer_index] = strlen( &(TextData->text[digit_index + 1]) );
 
-            for (size_t extra_digit_index = digit_index + 1; extra_digit_index < TextData->lines_lengths[line_pointer_index]; extra_digit_index++) {
-
-                if (TextData->text[extra_digit_index] != ' ' && TextData->text[extra_digit_index] != '\'') {
-
-                    TextData->lines_pointers[line_pointer_index] = &(TextData->text[extra_digit_index]);
-                    break;
-                }
-            }
-
             line_pointer_index++;
         }
     }
