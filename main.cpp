@@ -7,7 +7,7 @@
 
 int main(int argc, const char *argv[]) {
     TEXT_DATA TextData;
-    FILE *fp = NULL;
+    FILE *fp = NULL   ;
 
     printf("hello");
 
@@ -22,9 +22,9 @@ int main(int argc, const char *argv[]) {
         return -1;
     }
 
-    printf("hello");
-    fill_text(fp, &TextData);
-    print_text(&TextData);
+    fill_text     (fp, &TextData);
+    print_text    (    &TextData);
+    free_text_data(    &TextData);
 
     return 0;
 }
