@@ -3,8 +3,10 @@
 
 #include <cstdio>
 
+
 #include "text_data.h"
 
 int delete_extra_spaces(TEXT_DATA *TextData, size_t start_digit_index, size_t line_pointer_index);
+int swap(void *value1, void *value2, size_t size);
 
 #endif

@@ -81,7 +81,7 @@ int print_text(TEXT_DATA *TextData) {
                 continue;
             }
 
-            printf("%10p %10d %10d", TextData->lines_pointers[line_index], line_index, TextData->lines_lengths[line_index]);
+            printf("%10p %10d %10d ", TextData->lines_pointers[line_index], line_index, TextData->lines_lengths[line_index]);
             printf("(");
             fputs(TextData->lines_pointers[line_index], stdout);
             printf(")");
