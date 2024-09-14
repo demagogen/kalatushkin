@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <malloc.h>
+#include <cstdio>
 
 
 #include "text_data.h"
@@ -58,8 +59,21 @@ int fill_lines_pointers(TEXT_DATA *TextData) {
     for (size_t digit_index = 0; digit_index < TextData->digits; digit_index++) { //digit_index interval under TextData->digits - 1!
         if (TextData->text[digit_index] == '\0') {
 
-            TextData->lines_pointers[line_pointer_index] =         &(TextData->text[digit_index + 1]  );
-            TextData->lines_lengths [line_pointer_index] = strlen( &(TextData->text[digit_index + 1]) );
+            delete_extra_spaces(TextData, digit_index, line_pointer_index);
+
+            //size_t check_digit_index = digit_index + 1;
+            //while (TextData->text[check_digit_index] == ' '  ||
+            //       TextData->text[check_digit_index] == '\'') {
+//
+            //       check_digit_index++;
+            //       }
+//
+            //TextData->lines_pointers[line_pointer_index] = &(TextData->text[check_digit_index]);
+            //TextData->lines_lengths [line_pointer_index] = strlen( &(TextData->text[check_digit_index]) );
+
+
+            //TextData->lines_pointers[line_pointer_index] =         &(TextData->text[digit_index + 1]  );
+            //TextData->lines_lengths [line_pointer_index] = strlen( &(TextData->text[digit_index + 1]) );
 
             line_pointer_index++;
         }
@@ -76,8 +90,10 @@ int print_text(TEXT_DATA *TextData) {
 
     for (size_t line_index = 0; line_index < TextData->lines; line_index++) { //works, but almost dont understand why TextData->lines - 1
         if (TextData->text[line_index] != '\0' || TextData->text[line_index] != '\n') {
-            printf("%10p %10d", TextData->lines_pointers[line_index], line_index);
+            printf("%10p %10d %10d", TextData->lines_pointers[line_index], line_index, TextData->lines_lengths[line_index]);
+            printf("(");
             fputs(TextData->lines_pointers[line_index], stdout);
+            printf(")");
             printf("\n");
         }
     }
