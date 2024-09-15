@@ -97,7 +97,7 @@ int my_qsort(void *array, size_t el_size, int start, int end, compare_func_t com
         }
     }
 
-    swap((array + start * el_size), (array + separator * el_size), el_size);
+    //swap((array + start * el_size), (array + separator * el_size), el_size);
     my_qsort(array, el_size, start, separator - 1, compare_function);
     my_qsort(array, el_size, separator + 1, end, compare_function);
 
@@ -113,8 +113,8 @@ int compare_strings(const void *line_struct1, const void *line_struct2) {
 
     printf("%p %p\n", LineData1->lines_pointers, LineData2->lines_pointers);
 
-    if (int result = strcmp (LineData1->lines_pointers, LineData2->lines_pointers) > 0) {
-        swap(&(LineData1->lines_pointers), &(LineData2->lines_pointers), sizeof(char*));
+    if (int result = strcmp (LineData1->lines_pointers, LineData2->lines_pointers) < 0) {
+        swap(&(LineData1->lines_pointers), &(LineData2->lines_pointers), sizeof(char**));
         swap(&(LineData1->lines_lengths ), &(LineData2->lines_lengths ), sizeof(int *));
         return result;
     }
