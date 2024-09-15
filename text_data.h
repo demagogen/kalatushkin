@@ -1,12 +1,16 @@
 #ifndef TEXT_DATA_H_
 #define TEXT_DATA_H_
 
+struct LINE_DATA {
+    int lines_lengths    = 0;
+    char *lines_pointers = NULL;
+};
+
 struct TEXT_DATA {
     int digits            = 0;
     int lines             = 0;
-    int   *lines_lengths  = NULL;
+    LINE_DATA *LineData   = NULL;
     char  *text           = NULL;
-    char **lines_pointers = NULL;
 };
 
 int separate_text_on_strings (TEXT_DATA *TextData);

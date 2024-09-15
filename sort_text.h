@@ -9,7 +9,6 @@ typedef int (*compare_func_t)(const void *, const void *);
 
 int bubble_sort(TEXT_DATA *TextData);
 int sort_endings(TEXT_DATA *TextData);
-int my_qsort(void *array, size_t quantity, size_t elSize, compare_func_t comparing_function);
-int partition(void *array, int start, int end, size_t size, compare_func_t comparing_function);
+int my_qsort(void *array, size_t el_size, int start, int end, compare_func_t compare_function);
 int compare_strings(const void *line1, const void *line2);
 #endif

@@ -16,8 +16,6 @@ int main(int argc, const char *argv[]) {
     TEXT_DATA TextData = {};
     FILE *fp = NULL   ;
 
-    printf("hello");
-
     if (argc == 2) {
         fp = fopen(argv[1], "rb");
         fseek(fp, 0, SEEK_END);
@@ -34,7 +32,8 @@ int main(int argc, const char *argv[]) {
     fill_text     (fp, &TextData);
     //sort_endings  (    &TextData);
     //bubble_sort   (    &TextData);
-    //my_qsort      (TextData.lines_pointers, TextData.lines, sizeof(char*), compare_strings);
+    //my_qsort      (TextData.LineData, sizeof(LINE_DATA), 0, TextData.lines - 1, compare_strings);
+    qsort(TextData.LineData, TextData.lines, sizeof(LINE_DATA), compare_strings);
     print_text    (    &TextData);
     free_text_data(    &TextData);
 
