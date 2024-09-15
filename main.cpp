@@ -6,9 +6,14 @@
 #include "text_data.h"
 #include "utils.h"
 #include "sort_text.h"
+#include "color_scheme.h"
+
+
+
 
 int main(int argc, const char *argv[]) {
-    TEXT_DATA TextData;
+    ERROR_DATA error_inf = PROGRAM_ERROR;
+    TEXT_DATA TextData = {};
     FILE *fp = NULL   ;
 
     printf("hello");
@@ -20,12 +25,16 @@ int main(int argc, const char *argv[]) {
         fseek(fp, 0, SEEK_SET);
     }
     else {
-        printf("error\nfile name was not entered\n");
+        error_inf = INPUT_ERROR;
+        error_data_enum(error_inf);
+        graphic_printf(RED, BOLD, "error\nfile name was not entered\n");
         return -1;
     }
 
     fill_text     (fp, &TextData);
-    bubble_sort   (    &TextData);
+    //sort_endings  (    &TextData);
+    //bubble_sort   (    &TextData);
+    //my_qsort      (TextData.lines_pointers, TextData.lines, sizeof(char*), compare_strings);
     print_text    (    &TextData);
     free_text_data(    &TextData);
 
