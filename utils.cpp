@@ -1,7 +1,7 @@
 #include <string.h>
 #include <assert.h>
 #include <stdlib.h>
-#include <ctype.h>
+#include <ctype.h> // TODO unused header
 
 #include "utils.h"
 #include "color_scheme.h"
@@ -35,7 +35,7 @@ int delete_extra_spaces(TEXT_DATA *TextData, size_t start_digit_index, size_t li
 
 
 
-
+// TODO remove
 //int delete_punctuation_endings(TEXT_DATA *TextData) {
 //    assert(TextData);
 //
@@ -100,7 +100,7 @@ int swap(void *value1, void *value2, size_t size) {
         graphic_printf(RED, BOLD, "null pointer in swap\n");
     }
 
-    void *change_helper = calloc(1, size);
+    void *change_helper = calloc(1, size); // TODO get rid of calloc (maybe use for cycle...)
     if (change_helper == NULL) {
         perror("Failed to allocate memory");
         return -1;

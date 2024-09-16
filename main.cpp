@@ -17,9 +17,9 @@ int main(int argc, const char *argv[]) {
     FILE *fp = NULL   ;
 
     if (argc == 2) {
-        fp = fopen(argv[1], "rb");
+        fp = fopen(argv[1], "rb"); // TODO what if I enter non'existing filename?
         fseek(fp, 0, SEEK_END);
-        TextData.digits = ftell(fp);
+        TextData.digits = ftell(fp); // TODO this looks like separate function, doesn't it?
         fseek(fp, 0, SEEK_SET);
     }
     else {
