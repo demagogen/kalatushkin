@@ -30,10 +30,10 @@ int main(int argc, const char *argv[]) {
     }
 
     fill_text     (fp, &TextData);
-    //sort_endings  (    &TextData);
+    sort_endings  (    &TextData);
     //bubble_sort   (    &TextData);
     //my_qsort      (TextData.LineData, sizeof(LINE_DATA), 0, TextData.lines - 1, compare_strings);
-    qsort(TextData.LineData, TextData.lines, sizeof(LINE_DATA), compare_strings);
+    //qsort(TextData.LineData, TextData.lines, sizeof(LINE_DATA), compare_strings);
     print_text    (    &TextData);
     free_text_data(    &TextData);
 

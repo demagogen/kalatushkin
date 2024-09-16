@@ -76,33 +76,33 @@ printf("almsot lamost lamost lamost lamost lamost\n");
 
 
 
-int my_qsort(void *array, size_t el_size, int start, int end, compare_func_t compare_function)
-{
-    assert(array != nullptr);
-    assert(el_size != 0);
-
-    int separator = start;
-
-    if (start <= end) {
-
-        swap((array + start * el_size), (array + (separator * el_size)), el_size);
-
-        for (int i_index = start + 1; i_index <= end; i_index++)
-        {
-            if (compare_function((char*)(array + i_index*el_size), (array + start*el_size))  < 0)
-            {
-                separator++;
-                swap((array + separator * el_size), (array + i_index * el_size), el_size);
-            }
-        }
-    }
-
-    //swap((array + start * el_size), (array + separator * el_size), el_size);
-    my_qsort(array, el_size, start, separator - 1, compare_function);
-    my_qsort(array, el_size, separator + 1, end, compare_function);
-
-    return 0;
-}
+//sint my_qsort(void *array, size_t el_size, int start, int end, compare_func_t compare_function)
+//{
+//    assert(array);
+//    assert(el_size);
+//
+//    int separator = start;
+//
+//    if (start <= end) {
+//
+//        swap((array + start * el_size), (array + (start + end) / 2) * el_size, el_size);
+//
+//        for (int i_index = start + 1; i_index <= end; i_index++)
+//        {
+//            if (compare_function((char*)(array + i_index*el_size), (array + start*el_size)) < 0)
+//            {
+//                separator++;
+//                swap((array + separator * el_size), (array + i_index * el_size), el_size);
+//            }
+//        }
+//    }
+//
+//    //swap((array + start * el_size), (array + separator * el_size), el_size);
+//    my_qsort(array, el_size, start, separator - 1, compare_function);
+//    my_qsort(array, el_size, separator + 1, end, compare_function);
+//
+//    return 0;
+//}
 
 
 
@@ -113,8 +113,8 @@ int compare_strings(const void *line_struct1, const void *line_struct2) {
 
     printf("%p %p\n", LineData1->lines_pointers, LineData2->lines_pointers);
 
-    if (int result = strcmp (LineData1->lines_pointers, LineData2->lines_pointers) < 0) {
-        swap(&(LineData1->lines_pointers), &(LineData2->lines_pointers), sizeof(char**));
+    if (int result = strcmp (LineData1->lines_pointers, LineData2->lines_pointers) > 0) {
+        swap(&(LineData1->lines_pointers), &(LineData2->lines_pointers), sizeof(char*));
         swap(&(LineData1->lines_lengths ), &(LineData2->lines_lengths ), sizeof(int *));
         return result;
     }
