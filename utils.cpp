@@ -79,6 +79,10 @@ const char* error_data_enum(ERROR_DATA error_inf){
             return "FILE_ERROR";
             break;
 
+        case ALLOCATION_ERROR:
+            return "ALLOCATION_ERROR";
+            break;
+
         default:
             return "UNKNOWN_ERROR";
             break;

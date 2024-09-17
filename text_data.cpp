@@ -1,21 +1,42 @@
 #include <stdio.h>
 #include <assert.h>
 #include <string.h>
-#include <stdint.h> // TODO unused header
 #include <malloc.h>
 #include <cstdio>
 
 
 #include "text_data.h"
 #include "utils.h"
-#include "sort_text.h" // TODO unused header
 #include "color_scheme.h"
 
 
 
 
-int fill_text(FILE *fp, TEXT_DATA *TextData) { // TODO fp - bad naming
-    assert(fp);
+int count_digits(FILE *file_handle, TEXT_DATA *TextData) {
+    assert(file_handle);
+    assert(TextData);
+
+    ERROR_DATA error_inf = PROGRAM_ERROR;
+
+    if (!TextData) {
+        error_inf = ALLOCATION_ERROR;
+        error_data_enum(error_inf);
+        graphic_printf(RED, BOLD, "*TextData null pointer in count_digits\n");
+        return -1;
+    }
+
+    fseek(file_handle, 0, SEEK_END);
+    TextData->digits = ftell(file_handle);
+    fseek(file_handle, 0, SEEK_SET);
+
+    return 0;
+}
+
+
+
+
+int fill_text(FILE *file_handle, TEXT_DATA *TextData) {
+    assert(file_handle);
     assert(TextData);
 
     ERROR_DATA error_inf = PROGRAM_ERROR;
@@ -27,15 +48,22 @@ int fill_text(FILE *fp, TEXT_DATA *TextData) { // TODO fp - bad naming
         return -1;
     }
 
-    if (!fp) {
+    if (!file_handle) {
         error_inf = MEMORY_ERROR;
         error_data_enum(error_inf);
         graphic_printf(RED, BOLD, "*fp null pointer in fill_text\n");
         return -1;
     }
 
-          TextData->text = (char*) calloc(TextData->digits + 1, sizeof(char)); // TODO check for allocation error
-    fread(TextData->text, sizeof(char), TextData->digits, fp);
+    TextData->text = (char*) calloc(TextData->digits + 1, sizeof(char));
+    if (!TextData->text) {
+        error_inf = ALLOCATION_ERROR;
+        error_data_enum(error_inf);
+        graphic_printf(RED, BOLD, "calloc allocation error in fill_text\n");
+        return -1;
+    }
+
+    fread(TextData->text, sizeof(char), TextData->digits, file_handle);
 
     separate_text_on_strings   (TextData);
     count_strings              (TextData);
@@ -83,9 +111,9 @@ int count_strings(TEXT_DATA *TextData) {
         return -1;
     }
 
-    TextData->lines = -1; //cause after first iteration will be first string with 0 number
+    TextData->lines = -1;
 
-    for (size_t digit_index = 0; digit_index < TextData->digits; digit_index++) { //TextData->digits - 1 cause
+    for (size_t digit_index = 0; digit_index < TextData->digits; digit_index++) {
         if (TextData->text[digit_index] == '\0') {
             TextData->lines++;
         }
@@ -98,7 +126,6 @@ int count_strings(TEXT_DATA *TextData) {
 
 
 int fill_lines_pointers(TEXT_DATA *TextData) {
-    printf("hey hey hey hey hey hey hey hey hey hey\n");
     assert(TextData);
 
     ERROR_DATA error_inf = PROGRAM_ERROR;
@@ -112,8 +139,7 @@ int fill_lines_pointers(TEXT_DATA *TextData) {
     size_t line_pointer_index = 0;
     printf("hey hey hey hole hole hole hole hole hole\n");
     TextData->LineData = (LINE_DATA*) calloc(TextData->digits, sizeof(LINE_DATA));
-    printf("goal goal goal goal goal goal goal goal goal\n"); // TODO GOOOOOOOAAAAAAL
-                                                              
+
 // ⠁⢌⠈⠄⠡⠁⢌⠈⠄⠡⠈⠄⠡⠈⠄⠡⠈⠄⠡⠈⠄⠡⠈⠄⠡⠈⠄⠡⠈⠄⠡⠈⠄⠡⠈⠌⠠⢁⠌⠠⠁⠌⠠⠁⠌⠠⢁⠌⡈⢄⠁⡡⠈⠄⠡⡈⢐⠁⠌⠠⠁⢌⠈⠄⠡⠈⠌⠠⠁⠌⠠⠁⠌⠠⠁⠌⠠⠁⠌⠠⢁⠌⠠⠁⠌⠠⠁⠌⠠⠁⢌⠈⠄⠡⠁⠌⡠⠁⠌⡐
 // ⠌⠠⠈⠄⠡⠈⠄⠨⠀⠅⠨⠀⠅⠨⠀⠅⠨⠀⢅⢈⠐⡁⠌⡐⠁⠌⡠⢁⢊⢀⢑⠈⢄⠡⢈⠄⡑⡠⡐⢁⠌⠠⠁⠌⠠⡁⡂⡐⢀⠂⡐⠠⠈⠄⡡⡐⠠⠈⠄⠡⢈⠄⡈⢄⠡⡈⠄⠡⠈⢄⠁⡊⢠⠁⡊⠠⡁⠌⠠⢁⠂⠄⠡⡈⢐⠁⠌⡐⠁⠌⠠⠈⠄⠡⡈⢂⠐⡈⠐⠀
 // ⢊⠠⠁⠌⠠⠁⠌⠠⠁⠌⠠⠁⠌⠠⠁⠌⡠⠑⠠⡀⢂⠐⠄⡈⢐⠀⡂⠸⣷⠻⠳⠻⠻⠂⢄⣾⠞⠛⠻⢷⣦⠁⠌⣰⣵⠟⠛⠻⣷⣤⠠⠁⣼⠾⠞⠛⠿⣷⣈⠂⢄⣦⡿⠛⠻⠾⣶⡁⢂⠐⠠⣿⠗⠟⢻⣷⠂⡈⠂⠄⠨⠀⠅⠐⠄⡈⠐⠠⠁⠌⠠⠁⠌⡐⢀⠂⡐⠀⠢⢀
@@ -169,7 +195,7 @@ int fill_lines_pointers(TEXT_DATA *TextData) {
     TextData->LineData[line_pointer_index].lines_lengths  = strlen(TextData->text);
 
     printf("%d\n", TextData->digits);
-    for (size_t digit_index = 0; digit_index < TextData->digits; digit_index++) { //digit_index interval under TextData->digits - 1!
+    for (size_t digit_index = 0; digit_index < TextData->digits; digit_index++) {
         if (TextData->text[digit_index] == '\0') {
 
             delete_extra_spaces(TextData, digit_index, line_pointer_index);
@@ -195,7 +221,7 @@ int print_text(TEXT_DATA *TextData) {
         return -1;
     }
 
-    for (size_t line_index = 0; line_index < TextData->lines; line_index++) { //works, but almost dont understand why TextData->lines - 1
+    for (size_t line_index = 0; line_index < TextData->lines; line_index++) {
         if (TextData->text[line_index] != '\0' || TextData->text[line_index] != '\n') {
 
             if (TextData->LineData[line_index].lines_lengths == 0) {

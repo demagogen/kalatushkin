@@ -13,6 +13,7 @@ struct TEXT_DATA {
     char  *text           = NULL;
 };
 
+int count_digits(FILE *file_handle, TEXT_DATA *TextData);
 int separate_text_on_strings (TEXT_DATA *TextData);
 int sort_endings             (TEXT_DATA *TextData);
 int fill_text                (FILE *fp, TEXT_DATA *TextData);

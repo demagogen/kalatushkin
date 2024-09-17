@@ -7,10 +7,11 @@
 #include "text_data.h"
 
 enum ERROR_DATA {
-    PROGRAM_ERROR = -4,
-    INPUT_ERROR   = -3,
-    MEMORY_ERROR  = -2,
-    FILE_ERROR    = -1
+    PROGRAM_ERROR    = -4,
+    INPUT_ERROR      = -3,
+    MEMORY_ERROR     = -2,
+    FILE_ERROR       = -1,
+    ALLOCATION_ERROR = 0
 };
 
 const char* error_data_enum(ERROR_DATA error_inf);

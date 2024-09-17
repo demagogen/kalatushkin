@@ -51,22 +51,15 @@ int sort_endings(TEXT_DATA *TextData) {
         return -1;
     }
 
-    // TODO what the fuck is this? How do I supposed to check it?
     const char *punctuation = ".,!?:-'`";
     for (size_t sort_index = 0; sort_index < TextData->lines; sort_index++) {
         for (size_t line_index = 0; line_index < TextData->lines - sort_index - 1; line_index++) {
-            printf("obvious obvious obvious obvious\n");
             const char* line1 = TextData->LineData[line_index].lines_pointers     + TextData->LineData[line_index].lines_lengths - 2;
             const char* line2 = TextData->LineData[line_index + 1].lines_pointers + TextData->LineData[line_index + 1].lines_lengths - 2;
-            printf("and here and here and here and here\n");
-            printf("%s\n%s\n", line1, line2);
+
             if (strcmp(line1, line2) < 0) {
-printf("maybe here?\n");
-printf("%p\n%p\n", TextData->LineData[line_index].lines_pointers, TextData->LineData[line_index + 1].lines_pointers);
-printf("%d\n%d\n", TextData->LineData[line_index].lines_lengths, TextData->LineData[line_index + 1].lines_lengths  );
                 swap(&(TextData->LineData[line_index].lines_pointers), &(TextData->LineData[line_index + 1].lines_pointers), sizeof(char*));
                 swap(&(TextData->LineData[line_index].lines_lengths ), &(TextData->LineData[line_index + 1].lines_lengths ), sizeof(int  ));
-printf("almsot lamost lamost lamost lamost lamost\n");
             }
         }
     }
@@ -109,7 +102,7 @@ printf("almsot lamost lamost lamost lamost lamost\n");
 //⠀⠀⠀⠀⠀⠀⠀⠀⣼⡇⠀⠀⠀⠀⠀⣸⡗⠀⠀⠀⠀⠀⠀⠙⠷⡄⣀⠀⠀⠻⠟⠃⠀⠀⠀⠀⠤⠀⠀⠀⠀⠀⠀⠀⣾⡟⠀⠀⠀⠀⠀⢰⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇
 //⠀⠀⠀⠀⠀⠀⠀⠀⠹⠇⠀⠀⠀⠀⠀⣸⣿⠠⢰⣶⠄⠀⠀⠀⢀⣀⠀⢠⠀⠀⢠⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣙⣿⠁⠀⠀⠀⠀⠀⣸⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⠇
 
-//sint my_qsort(void *array, size_t el_size, int start, int end, compare_func_t compare_function)
+//int my_qsort(void *array, size_t el_size, int start, int end, compare_func_t compare_function)
 //{
 //    assert(array);
 //    assert(el_size);
@@ -149,12 +142,12 @@ int compare_strings(const void *line_struct1, const void *line_struct2) {
     // TODO What about skipping punctuation signs and whitespaces?
     if (int result = strcmp (LineData1->lines_pointers, LineData2->lines_pointers) > 0) {
         swap(&(LineData1->lines_pointers), &(LineData2->lines_pointers), sizeof(char*)); // TODO swapping in comparator function looks really weird
-                                                                                         // What if you want to write a qsort function? This code is kinda specific 
-                                                                                         // for bubble sort. I expect function with name "compare_strings" to work like strcmp 
+                                                                                         // What if you want to write a qsort function? This code is kinda specific
+                                                                                         // for bubble sort. I expect function with name "compare_strings" to work like strcmp
         swap(&(LineData1->lines_lengths ), &(LineData2->lines_lengths ), sizeof(int *));
         return result;
     }
     else {
-    return result; // TODO fix alignment
+        return result;
     }
 }

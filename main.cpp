@@ -14,13 +14,18 @@
 int main(int argc, const char *argv[]) {
     ERROR_DATA error_inf = PROGRAM_ERROR;
     TEXT_DATA TextData = {};
-    FILE *fp = NULL   ;
+    FILE *file_handle = NULL   ;
 
     if (argc == 2) {
-        fp = fopen(argv[1], "rb"); // TODO what if I enter non'existing filename?
-        fseek(fp, 0, SEEK_END);
-        TextData.digits = ftell(fp); // TODO this looks like separate function, doesn't it?
-        fseek(fp, 0, SEEK_SET);
+        file_handle = fopen(argv[1], "rb");
+        if (!file_handle) {
+            error_inf = FILE_ERROR;
+            error_data_enum(error_inf);
+            graphic_printf(RED, BOLD, "null pointer file_handle in main\n");
+            return -1;
+        }
+
+        count_digits(file_handle, &TextData);
     }
     else {
         error_inf = INPUT_ERROR;
@@ -29,13 +34,13 @@ int main(int argc, const char *argv[]) {
         return -1;
     }
 
-    fill_text     (fp, &TextData);
-    sort_endings  (    &TextData);
+    fill_text     (file_handle, &TextData);
+    sort_endings  (             &TextData);
     //bubble_sort   (    &TextData);
     //my_qsort      (TextData.LineData, sizeof(LINE_DATA), 0, TextData.lines - 1, compare_strings);
     //qsort(TextData.LineData, TextData.lines, sizeof(LINE_DATA), compare_strings);
-    print_text    (    &TextData);
-    free_text_data(    &TextData);
+    print_text    (&TextData);
+    free_text_data(&TextData);
 
     return 0;
 }
