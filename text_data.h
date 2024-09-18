@@ -14,14 +14,14 @@ struct TEXT_DATA {
     char  *text           = NULL;
 };
 
-int count_digits             (FILE *file_handle, TEXT_DATA *TextData);
-int separate_text_on_strings (TEXT_DATA *TextData);
-int sort_endings             (TEXT_DATA *TextData);
-int fill_text                (FILE *fp, TEXT_DATA *TextData);
-int count_strings            (TEXT_DATA *TextData);
-int fill_lines_pointers      (TEXT_DATA *TextData);
-int print_text               (FILE *file_handle, TEXT_DATA *TextData);
-int free_text_data           (TEXT_DATA *TextData);
+int count_digits             (FILE *file_handle, TEXT_DATA *text_data);
+int separate_text_on_strings (TEXT_DATA *text_data);
+int sort_endings             (TEXT_DATA *text_data);
+int fill_text                (FILE *fp, TEXT_DATA *text_data);
+int count_strings            (TEXT_DATA *text_data);
+int fill_lines_pointers      (TEXT_DATA *text_data);
+int print_text               (FILE *file_handle, TEXT_DATA *text_data);
+int free_text_data           (TEXT_DATA *text_data);
 
 #endif
 

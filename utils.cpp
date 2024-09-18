@@ -8,25 +8,23 @@
 
 #define ull unsigned long long
 
-int delete_extra_spaces(TEXT_DATA *TextData, size_t start_digit_index, size_t line_pointer_index) {
-    assert(TextData);
+int delete_extra_spaces(TEXT_DATA *text_data, size_t start_digit_index, size_t line_pointer_index) {
+    assert(text_data);
 
     ERROR_DATA error_inf = PROGRAM_ERROR;
-    if (!TextData) {
+    if (!text_data) {
         error_inf = MEMORY_ERROR;
         error_data_enum(error_inf);
-        graphic_printf(RED, BOLD, "*TextData null pointer in delete_extra_spaces\n");
+        graphic_printf(RED, BOLD, "*text_data null pointer in delete_extra_spaces\n");
         return -1;
     }
-
     size_t check_digit_index = start_digit_index + 1;
-    while (TextData->text[check_digit_index] == ' '  ||
-           TextData->text[check_digit_index] == '\'') { // TODO iswhitespace()
+    while (text_data->text[check_digit_index] == ' '  ||
+           text_data->text[check_digit_index] == '\'') { // TODO iswhitespace()
            check_digit_index++;
            }
-
-    TextData->LineData[line_pointer_index].lines_pointers =         &(TextData->text[check_digit_index]);
-    TextData->LineData[line_pointer_index].lines_lengths  = strlen( &(TextData->text[check_digit_index]) );
+    text_data->LineData[line_pointer_index].lines_pointers =         &(text_data->text[check_digit_index] );
+    text_data->LineData[line_pointer_index].lines_lengths  = strlen( &(text_data->text[check_digit_index]));
 
     return 0;
 }

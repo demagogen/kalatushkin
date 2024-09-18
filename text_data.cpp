@@ -9,34 +9,34 @@
 #include "color_scheme.h"
 
 // TODO just file
-int count_digits(FILE *file_handle, TEXT_DATA *TextData) { // TODO count symbols in file
+int count_digits(FILE *file_handle, TEXT_DATA *text_data) { // TODO count symbols in file
     assert(file_handle);
-    assert(TextData);
+    assert(text_data);
 
     ERROR_DATA error_inf = PROGRAM_ERROR; // TODO error_info
-    if (!TextData) {
+    if (!text_data) {
         error_inf = ALLOCATION_ERROR;
         error_data_enum(error_inf);
-        graphic_printf(RED, BOLD, "*TextData null pointer in count_digits\n");
+        graphic_printf(RED, BOLD, "*text_data null pointer in count_digits\n");
         return -1;
     }
 
     fseek(file_handle, 0, SEEK_END);
-    TextData->digits = ftell(file_handle);
+    text_data->digits = ftell(file_handle);
     fseek(file_handle, 0, SEEK_SET);
 
     return 0;
 }
 
-int fill_text(FILE *file_handle, TEXT_DATA *TextData) {
+int fill_text(FILE *file_handle, TEXT_DATA *text_data) {
     assert(file_handle);
-    assert(TextData);
+    assert(text_data);
 
     ERROR_DATA error_inf = PROGRAM_ERROR;
-    if (!TextData) {
+    if (!text_data) {
         error_inf = MEMORY_ERROR;
         error_data_enum(error_inf);
-        graphic_printf(RED, BOLD, "*TextData null pointer in fill_text\n");
+        graphic_printf(RED, BOLD, "*text_data null pointer in fill_text\n");
         return -1;
     }
 
@@ -47,84 +47,84 @@ int fill_text(FILE *file_handle, TEXT_DATA *TextData) {
         return -1;
     }
 
-    TextData->text = (char*) calloc(TextData->digits + 1, sizeof(char));
-    if (!TextData->text) {
+    text_data->text = (char*) calloc(text_data->digits + 1, sizeof(char));
+    if (!text_data->text) {
         error_inf = ALLOCATION_ERROR;
         error_data_enum(error_inf);
         graphic_printf(RED, BOLD, "calloc allocation error in fill_text\n");
         return -1;
     }
 
-    fread(TextData->text, sizeof(char), TextData->digits, file_handle);
+    fread(text_data->text, sizeof(char), text_data->digits, file_handle);
 
-    separate_text_on_strings   (TextData);
-    count_strings              (TextData);
-    //delete_punctuation_endings (TextData);
-    fill_lines_pointers        (TextData);
+    separate_text_on_strings   (text_data);
+    count_strings              (text_data);
+    //delete_punctuation_endings (text_data);
+    fill_lines_pointers        (text_data);
 
     return 0;
 }
 
-int separate_text_on_strings(TEXT_DATA *TextData) {
-    assert(TextData);
+int separate_text_on_strings(TEXT_DATA *text_data) {
+    assert(text_data);
 
     ERROR_DATA error_inf = PROGRAM_ERROR;
-    if (!TextData) {
+    if (!text_data) {
         error_inf = MEMORY_ERROR;
         error_data_enum(error_inf);
         graphic_printf(RED, BOLD, "*fp null pointer in separate_text_on_strings\n");
         return -1;
     }
 
-    for (size_t digit_index = 0; digit_index < TextData->digits; digit_index++) {
-        if (TextData->text[digit_index] == '\n') {
-            TextData->text[digit_index] =  '\0';
+    for (size_t digit_index = 0; digit_index < text_data->digits; digit_index++) {
+        if (text_data->text[digit_index] == '\n') {
+            text_data->text[digit_index] =  '\0';
         }
     }
 
     return 0;
 }
 
-int count_strings(TEXT_DATA *TextData) {
-    assert(TextData);
+int count_strings(TEXT_DATA *text_data) {
+    assert(text_data);
 
     ERROR_DATA error_inf = PROGRAM_ERROR;
-    if (!TextData) {
+    if (!text_data) {
         error_inf = MEMORY_ERROR;
         error_data_enum(error_inf);
         return -1;
     }
 
-    TextData->lines = -1;
+    text_data->lines = -1;
 
-    for (size_t digit_index = 0; digit_index < TextData->digits; digit_index++) {
-        if (TextData->text[digit_index] == '\0') {
-            TextData->lines++;
+    for (size_t digit_index = 0; digit_index < text_data->digits; digit_index++) {
+        if (text_data->text[digit_index] == '\0') {
+            text_data->lines++;
         }
     }
 
     return 0;
 }
 
-int fill_lines_pointers(TEXT_DATA *TextData) {
-    assert(TextData);
+int fill_lines_pointers(TEXT_DATA *text_data) {
+    assert(text_data);
 
     ERROR_DATA error_inf = PROGRAM_ERROR;
-    if (!TextData) {
+    if (!text_data) {
         error_inf = MEMORY_ERROR;
         error_data_enum(error_inf);
         return -1;
     }
 
     size_t line_pointer_index = 0;
-    TextData->LineData = (LINE_DATA*) calloc(TextData->digits, sizeof(LINE_DATA));
-    TextData->LineData[line_pointer_index].lines_pointers =        TextData->text;
-    TextData->LineData[line_pointer_index].lines_lengths  = strlen(TextData->text);
+    text_data->LineData = (LINE_DATA*) calloc(text_data->digits, sizeof(LINE_DATA));
+    text_data->LineData[line_pointer_index].lines_pointers =        text_data->text;
+    text_data->LineData[line_pointer_index].lines_lengths  = strlen(text_data->text);
 
-    for (size_t digit_index = 0; digit_index < TextData->digits; digit_index++) {
-        if (TextData->text[digit_index] == '\0') {
+    for (size_t digit_index = 0; digit_index < text_data->digits; digit_index++) {
+        if (text_data->text[digit_index] == '\0') {
 
-            delete_extra_spaces(TextData, digit_index, line_pointer_index);
+            delete_extra_spaces(text_data, digit_index, line_pointer_index);
 
             line_pointer_index++;
         }
@@ -133,35 +133,35 @@ int fill_lines_pointers(TEXT_DATA *TextData) {
     return 0;
 }
 
-int print_text(FILE *file_handle, TEXT_DATA *TextData) { // TODO why file_handle and TextData (naming case)
-    assert(TextData);
-    assert(file_handle);
+int print_text(FILE *file, TEXT_DATA *text_data) { // TODO why file_handle and text_data (naming case)
+    assert(text_data);
+    assert(file);
 
     ERROR_DATA error_inf = PROGRAM_ERROR;
-    if (!TextData) {
+    if (!text_data) {
         error_inf = MEMORY_ERROR;
         error_data_enum(error_inf);
         return -1;
     }
 
-    for (size_t line_index = 0; line_index < TextData->lines; line_index++) {
-        if (TextData->text[line_index] != '\0' || TextData->text[line_index] != '\n') {
+    for (size_t line_index = 0; line_index < text_data->lines; line_index++) {
+        if (text_data->text[line_index] != '\0' || text_data->text[line_index] != '\n') {
 
-            if (TextData->LineData[line_index].lines_lengths == 0) {
+            if (text_data->LineData[line_index].lines_lengths == 0) {
                 continue;
             }
-            fprintf(file_handle, "%s\n", TextData->LineData[line_index].lines_pointers);
+            fprintf(file, "%s\n", text_data->LineData[line_index].lines_pointers);
         }
     }
 
     return 0;
 }
 
-int free_text_data(TEXT_DATA *TextData) {
-    assert(TextData);
+int free_text_data(TEXT_DATA *text_data) {
+    assert(text_data);
 
-    free(TextData->LineData);
-    free(TextData->text);
+    free(text_data->LineData);
+    free(text_data->text);
 
     return 0;
 }
