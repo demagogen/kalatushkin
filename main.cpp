@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <ctype.h> //useless header
 
 #include "text_data.h"
 #include "utils.h"
