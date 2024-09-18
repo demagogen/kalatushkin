@@ -4,9 +4,6 @@
 
 #include "color_scheme.h"
 
-
-
-
 void graphic_printf(COLOR color, STYLE style, const char *st, ...) {
     assert(st);
 
@@ -22,9 +19,6 @@ void graphic_printf(COLOR color, STYLE style, const char *st, ...) {
     printf("\033[0m");
     va_end(argument_pointer);
 }
-
-
-
 
 void change_color(COLOR color, STYLE style) {
     printf("\033[");

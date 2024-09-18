@@ -11,7 +11,8 @@
 int main(int argc, const char *argv[]) {
     ERROR_DATA error_inf = PROGRAM_ERROR;
     TEXT_DATA TextData = {};
-    FILE *input_file_handle = NULL;
+    FILE* input_file_handle  = NULL;
+    FILE* output_file_handle = stdout;
 
     if (argc == 2) {
         input_file_handle = fopen(argv[1], "rb");
@@ -21,8 +22,23 @@ int main(int argc, const char *argv[]) {
             graphic_printf(RED, BOLD, "null pointer input_file_handle in main\n");
             return -1;
         }
-
-        count_digits(input_file_handle, &TextData);
+    }
+    else if (argc == 3) {
+        input_file_handle = fopen(argv[1], "rb");
+        if (!input_file_handle) {
+            error_inf = FILE_ERROR;
+            error_data_enum(error_inf);
+            graphic_printf(RED, BOLD, "null pointer input_file_handle in main\n");
+            return -1;
+        }
+        output_file_handle = fopen(argv[2], "w");
+        if (!output_file_handle) {
+            error_inf = FILE_ERROR;
+            error_data_enum(error_inf);
+            graphic_printf(RED, BOLD, "null pointer output_file in main\n");
+            return -1;
+        }
+        fprintf(stderr, "out file: %p\n", output_file_handle);
     }
     else {
         error_inf = INPUT_ERROR;
@@ -31,13 +47,17 @@ int main(int argc, const char *argv[]) {
         return -1;
     }
 
+    count_digits(input_file_handle, &TextData);
     fill_text      (input_file_handle, &TextData);
     //sort_endings   (&TextData);
-    bubble_sort    (&TextData);
-    //my_qsort       (TextData.LineData, sizeof(LINE_DATA), 0, TextData.lines, compare_strings_starts);
+    //bubble_sort    (&TextData);
+    //custom_qsort   (TextData.LineData, TextData.lines, sizeof(LINE_DATA), compare_strings_ends);
     //qsort          (TextData.LineData, TextData.lines, sizeof(LINE_DATA), compare_strings_ends);
-    print_text     (stdout, &TextData);
+    print_text     (output_file_handle, &TextData);
     free_text_data (&TextData);
+
+    fclose(input_file_handle);
+    fclose(output_file_handle);
 
     return 0;
 }

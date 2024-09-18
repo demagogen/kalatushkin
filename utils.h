@@ -3,7 +3,6 @@
 
 #include <cstdio>
 
-
 #include "text_data.h"
 
 enum ERROR_DATA {

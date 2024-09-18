@@ -2,8 +2,9 @@
 #define TEXT_DATA_H_
 
 struct LINE_DATA {
-    int lines_lengths     = 0;
-    char *lines_pointers  = NULL;
+    int lines_lengths         = 0;
+    char* lines_pointers      = NULL;
+    char* lines_ends_pointers = NULL;
 };
 
 struct TEXT_DATA {

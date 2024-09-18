@@ -1,14 +1,11 @@
 #ifndef COLOR_SCHEME_H_
 #define COLOR_SCHEME_H_
 
-
-
-
 /// @brief Перечислимый тип цветов
 /// @details Перечислимый тип цветов для функции graphic_printf().
 
 enum COLOR {
-    BLACK   = 0, ///<черный
+    BLACK   = 0, ///<black nigga
     RED     = 1, ///<красный
     GREEN   = 2, ///<зеленый
     YELLOW  = 3, ///<желтый
@@ -17,9 +14,6 @@ enum COLOR {
     CYAN    = 6, ///<бирюзовый
     WHITE   = 7, ///<белый
 };
-
-
-
 
 /// @brief Перечислимый тип стилей
 /// @details Перечислимый тип стилей для функции graphic_printf().
@@ -34,9 +28,6 @@ enum STYLE {
     INVERSE_OFF   = 6, ///<выключить инверсию
 };
 
-
-
-
 /// @brief Меняет цвет и стиль вводимой строки
 /// @details Меняет цвет и стиль вводимой строки из функции
 ///          graphic_printf().
@@ -44,9 +35,6 @@ enum STYLE {
 /// @param style стиль
 
 void change_color(COLOR color, STYLE style);
-
-
-
 
 /// @brief Выводит строку с цветом и стилем
 /// \details Выводит строку с цветом color и стилей style
@@ -57,8 +45,5 @@ void change_color(COLOR color, STYLE style);
 /// @param  Строка с цветом color и стилем style
 
 void graphic_printf(COLOR color, STYLE style, const char *st, ...);
-
-
-
 
 #endif

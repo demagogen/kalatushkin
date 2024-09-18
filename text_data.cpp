@@ -4,20 +4,16 @@
 #include <malloc.h>
 #include <cstdio>
 
-
 #include "text_data.h"
 #include "utils.h"
 #include "color_scheme.h"
 
-
-
-
-int count_digits(FILE *file_handle, TEXT_DATA *TextData) {
+// TODO just file
+int count_digits(FILE *file_handle, TEXT_DATA *TextData) { // TODO count symbols in file
     assert(file_handle);
     assert(TextData);
 
-    //TODO maybe better to return count digits and put it in TextData in main
-    ERROR_DATA error_inf = PROGRAM_ERROR;
+    ERROR_DATA error_inf = PROGRAM_ERROR; // TODO error_info
     if (!TextData) {
         error_inf = ALLOCATION_ERROR;
         error_data_enum(error_inf);
@@ -25,15 +21,12 @@ int count_digits(FILE *file_handle, TEXT_DATA *TextData) {
         return -1;
     }
 
-    fseek(file_handle, 0, SEEK_END); //TODO fstat safer faster
+    fseek(file_handle, 0, SEEK_END);
     TextData->digits = ftell(file_handle);
     fseek(file_handle, 0, SEEK_SET);
 
     return 0;
 }
-
-
-
 
 int fill_text(FILE *file_handle, TEXT_DATA *TextData) {
     assert(file_handle);
@@ -72,9 +65,6 @@ int fill_text(FILE *file_handle, TEXT_DATA *TextData) {
     return 0;
 }
 
-
-
-
 int separate_text_on_strings(TEXT_DATA *TextData) {
     assert(TextData);
 
@@ -94,9 +84,6 @@ int separate_text_on_strings(TEXT_DATA *TextData) {
 
     return 0;
 }
-
-
-
 
 int count_strings(TEXT_DATA *TextData) {
     assert(TextData);
@@ -119,9 +106,6 @@ int count_strings(TEXT_DATA *TextData) {
     return 0;
 }
 
-
-
-
 int fill_lines_pointers(TEXT_DATA *TextData) {
     assert(TextData);
 
@@ -137,7 +121,6 @@ int fill_lines_pointers(TEXT_DATA *TextData) {
     TextData->LineData[line_pointer_index].lines_pointers =        TextData->text;
     TextData->LineData[line_pointer_index].lines_lengths  = strlen(TextData->text);
 
-    printf("%d\n", TextData->digits);
     for (size_t digit_index = 0; digit_index < TextData->digits; digit_index++) {
         if (TextData->text[digit_index] == '\0') {
 
@@ -150,11 +133,9 @@ int fill_lines_pointers(TEXT_DATA *TextData) {
     return 0;
 }
 
-
-
-
-int print_text(FILE *file_handle, TEXT_DATA *TextData) {
+int print_text(FILE *file_handle, TEXT_DATA *TextData) { // TODO why file_handle and TextData (naming case)
     assert(TextData);
+    assert(file_handle);
 
     ERROR_DATA error_inf = PROGRAM_ERROR;
     if (!TextData) {
@@ -169,20 +150,12 @@ int print_text(FILE *file_handle, TEXT_DATA *TextData) {
             if (TextData->LineData[line_index].lines_lengths == 0) {
                 continue;
             }
-
-printf("%10p %10d %10d ", TextData->LineData[line_index].lines_pointers, line_index, TextData->LineData[line_index].lines_lengths);
-printf("(");
-            fputs(TextData->LineData[line_index].lines_pointers, file_handle);
-printf(")");
-printf("\n");
+            fprintf(file_handle, "%s\n", TextData->LineData[line_index].lines_pointers);
         }
     }
 
     return 0;
 }
-
-
-
 
 int free_text_data(TEXT_DATA *TextData) {
     assert(TextData);
