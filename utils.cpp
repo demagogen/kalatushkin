@@ -20,7 +20,8 @@ int delete_extra_spaces(TEXT_DATA *text_data, size_t start_digit_index, size_t l
     }
     size_t check_digit_index = start_digit_index + 1;
     while (text_data->text[check_digit_index] == ' '  ||
-           text_data->text[check_digit_index] == '\'') { // TODO iswhitespace()
+           text_data->text[check_digit_index] == '\'' ||
+           isspace(text_data->text[check_digit_index])) {
            check_digit_index++;
     }
     text_data->LineData[line_pointer_index].lines_pointers      =         &(text_data->text[check_digit_index] );
