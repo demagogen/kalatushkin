@@ -8,16 +8,15 @@
 #include "utils.h"
 #include "color_scheme.h"
 
-// TODO just file
-int count_digits(FILE *file_handle, TEXT_DATA *text_data) { // TODO count symbols in file
+int count_symbols(FILE *file_handle, TEXT_DATA *text_data) {
     assert(file_handle);
     assert(text_data);
 
-    ERROR_DATA error_inf = PROGRAM_ERROR; // TODO error_info
+    ERROR_DATA error_info = PROGRAM_ERROR;
     if (!text_data) {
-        error_inf = ALLOCATION_ERROR;
-        error_data_enum(error_inf);
-        graphic_printf(RED, BOLD, "*text_data null pointer in count_digits\n");
+        error_info = ALLOCATION_ERROR;
+        error_data_enum(error_info);
+        graphic_printf(RED, BOLD, "*text_data null pointer in count_symbols\n");
         return -1;
     }
 
@@ -32,25 +31,25 @@ int fill_text(FILE *file_handle, TEXT_DATA *text_data) {
     assert(file_handle);
     assert(text_data);
 
-    ERROR_DATA error_inf = PROGRAM_ERROR;
+    ERROR_DATA error_info = PROGRAM_ERROR;
     if (!text_data) {
-        error_inf = MEMORY_ERROR;
-        error_data_enum(error_inf);
+        error_info = MEMORY_ERROR;
+        error_data_enum(error_info);
         graphic_printf(RED, BOLD, "*text_data null pointer in fill_text\n");
         return -1;
     }
 
     if (!file_handle) {
-        error_inf = MEMORY_ERROR;
-        error_data_enum(error_inf);
+        error_info = MEMORY_ERROR;
+        error_data_enum(error_info);
         graphic_printf(RED, BOLD, "*fp null pointer in fill_text\n");
         return -1;
     }
 
     text_data->text = (char*) calloc(text_data->digits + 1, sizeof(char));
     if (!text_data->text) {
-        error_inf = ALLOCATION_ERROR;
-        error_data_enum(error_inf);
+        error_info = ALLOCATION_ERROR;
+        error_data_enum(error_info);
         graphic_printf(RED, BOLD, "calloc allocation error in fill_text\n");
         return -1;
     }
@@ -59,7 +58,6 @@ int fill_text(FILE *file_handle, TEXT_DATA *text_data) {
 
     separate_text_on_strings   (text_data);
     count_strings              (text_data);
-    //delete_punctuation_endings (text_data);
     fill_lines_pointers        (text_data);
 
     return 0;
@@ -68,14 +66,13 @@ int fill_text(FILE *file_handle, TEXT_DATA *text_data) {
 int separate_text_on_strings(TEXT_DATA *text_data) {
     assert(text_data);
 
-    ERROR_DATA error_inf = PROGRAM_ERROR;
+    ERROR_DATA error_info = PROGRAM_ERROR;
     if (!text_data) {
-        error_inf = MEMORY_ERROR;
-        error_data_enum(error_inf);
+        error_info = MEMORY_ERROR;
+        error_data_enum(error_info);
         graphic_printf(RED, BOLD, "*fp null pointer in separate_text_on_strings\n");
         return -1;
     }
-
     for (size_t digit_index = 0; digit_index < text_data->digits; digit_index++) {
         if (text_data->text[digit_index] == '\n') {
             text_data->text[digit_index] =  '\0';
@@ -88,15 +85,14 @@ int separate_text_on_strings(TEXT_DATA *text_data) {
 int count_strings(TEXT_DATA *text_data) {
     assert(text_data);
 
-    ERROR_DATA error_inf = PROGRAM_ERROR;
+    ERROR_DATA error_info = PROGRAM_ERROR;
     if (!text_data) {
-        error_inf = MEMORY_ERROR;
-        error_data_enum(error_inf);
+        error_info = MEMORY_ERROR;
+        error_data_enum(error_info);
         return -1;
     }
 
     text_data->lines = -1;
-
     for (size_t digit_index = 0; digit_index < text_data->digits; digit_index++) {
         if (text_data->text[digit_index] == '\0') {
             text_data->lines++;
@@ -106,16 +102,17 @@ int count_strings(TEXT_DATA *text_data) {
     return 0;
 }
 
+//TODO add ends pointers in structure!!!
+
 int fill_lines_pointers(TEXT_DATA *text_data) {
     assert(text_data);
 
-    ERROR_DATA error_inf = PROGRAM_ERROR;
+    ERROR_DATA error_info = PROGRAM_ERROR;
     if (!text_data) {
-        error_inf = MEMORY_ERROR;
-        error_data_enum(error_inf);
+        error_info = MEMORY_ERROR;
+        error_data_enum(error_info);
         return -1;
     }
-
     size_t line_pointer_index = 0;
     text_data->LineData = (LINE_DATA*) calloc(text_data->digits, sizeof(LINE_DATA));
     text_data->LineData[line_pointer_index].lines_pointers =        text_data->text;
@@ -123,9 +120,7 @@ int fill_lines_pointers(TEXT_DATA *text_data) {
 
     for (size_t digit_index = 0; digit_index < text_data->digits; digit_index++) {
         if (text_data->text[digit_index] == '\0') {
-
             delete_extra_spaces(text_data, digit_index, line_pointer_index);
-
             line_pointer_index++;
         }
     }
@@ -133,20 +128,19 @@ int fill_lines_pointers(TEXT_DATA *text_data) {
     return 0;
 }
 
-int print_text(FILE *file, TEXT_DATA *text_data) { // TODO why file_handle and text_data (naming case)
+int print_text(FILE *file, TEXT_DATA *text_data) {
     assert(text_data);
     assert(file);
 
-    ERROR_DATA error_inf = PROGRAM_ERROR;
+    ERROR_DATA error_info = PROGRAM_ERROR;
     if (!text_data) {
-        error_inf = MEMORY_ERROR;
-        error_data_enum(error_inf);
+        error_info = MEMORY_ERROR;
+        error_data_enum(error_info);
         return -1;
     }
 
     for (size_t line_index = 0; line_index < text_data->lines; line_index++) {
         if (text_data->text[line_index] != '\0' || text_data->text[line_index] != '\n') {
-
             if (text_data->LineData[line_index].lines_lengths == 0) {
                 continue;
             }

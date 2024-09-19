@@ -47,12 +47,10 @@ int main(int argc, const char *argv[]) {
         return -1;
     }
 
-    count_digits(input_file_handle, &TextData);
-    fill_text   (input_file_handle, &TextData);
-    //sort_endings   (&TextData);
-    //bubble_sort    (&TextData);
-    //custom_qsort   (TextData.LineData, TextData.lines, sizeof(LINE_DATA), compare_strings_ends);
-    //qsort          (TextData.LineData, TextData.lines, sizeof(LINE_DATA), compare_strings_ends);
+    count_symbols  (input_file_handle, &TextData);
+    fill_text      (input_file_handle, &TextData);
+    //qsort          (TextData.LineData, TextData.lines, sizeof(LINE_DATA), compare_strings_starts);
+    custom_qsort   (TextData.LineData, TextData.lines, sizeof(LINE_DATA), compare_strings_ends);
     print_text     (output_file_handle, &TextData);
     free_text_data (&TextData);
 

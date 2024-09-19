@@ -8,47 +8,99 @@
 #include "utils.h"
 #include "color_scheme.h"
 
+#define LINE_DATA_DEFINE(type, struct_param, line_struct, object) type struct_param = (*((LINE_DATA* )line_struct)).object;
+
 int compare_strings_starts(const void *line_struct1, const void *line_struct2) {
-    assert(line_struct1);
-    assert(line_struct2);
+	assert(line_struct1 && "compare strings assert fucked up");
+	assert(line_struct2);
 
-    LINE_DATA* LineData1 = (LINE_DATA* )line_struct1;
-    LINE_DATA* LineData2 = (LINE_DATA* )line_struct2;
+    LINE_DATA_DEFINE(char*, letter1_ptr, line_struct1, lines_pointers);
+    LINE_DATA_DEFINE(char*, letter2_ptr, line_struct2, lines_pointers);
 
-    // TODO skip punctuation symbols except apostrophe
-    return strcmp(LineData1->lines_pointers, LineData2->lines_pointers);
+    LINE_DATA_DEFINE(size_t, line1_length, line_struct1, lines_lengths);
+    LINE_DATA_DEFINE(size_t, line2_length, line_struct2, lines_lengths);
+
+    size_t letter1_index = 0;
+    size_t letter2_index = 0;
+
+    while (letter1_index < line1_length && letter2_index < line2_length) {
+        printf("%c %c\n", letter1_ptr[letter1_index], letter2_ptr[letter2_index]);
+        while (!is_letter(letter1_ptr[letter1_index]) && !is_apostrophe(letter1_ptr[letter1_index])) {
+            letter1_index++;
+        }
+        while (!is_letter(letter2_ptr[letter2_index]) && !is_apostrophe(letter2_ptr[letter2_index])) {
+            letter2_index++;
+        }
+        if (letter1_ptr[letter1_index] != letter2_ptr[letter2_index]) {
+            return (int) (letter1_ptr[letter1_index] - letter2_ptr[letter2_index]);
+        }
+        else {
+            letter1_index++;
+            letter2_index++;
+            continue;
+        }
+    }
+    return 0;
 }
 
 int compare_strings_ends(const void* line_struct1, const void* line_struct2) {
-    assert(line_struct1);
-    assert(line_struct2);
+	assert(line_struct1);
+	assert(line_struct2);
 
-    LINE_DATA* LineData1 = (LINE_DATA* )line_struct1;
-    LINE_DATA* LineData2 = (LINE_DATA* )line_struct2;
+    LINE_DATA_DEFINE(char*, letter1_ptr, line_struct1, lines_pointers);
+    LINE_DATA_DEFINE(char*, letter2_ptr, line_struct2, lines_pointers);
 
-    const char* line1_end = LineData1->lines_pointers + LineData1->lines_lengths - 3;
-    const char* line2_end = LineData2->lines_pointers + LineData2->lines_lengths - 3;
+    LINE_DATA_DEFINE(size_t, line1_length, line_struct1, lines_lengths);
+    LINE_DATA_DEFINE(size_t, line2_length, line_struct2, lines_lengths);
 
-    // TODO write correct comparator
-    return strcmp(LineData1->lines_pointers, LineData2->lines_pointers);
+    size_t letter1_index = 0;
+    size_t letter2_index = 0;
+
+    while (letter1_index < line1_length && letter2_index < line2_length) {
+        while (!is_letter(letter1_ptr[line1_length - letter1_index])) {
+            letter1_index++;
+        }
+        while (!is_letter(letter2_ptr[line2_length - letter2_index])) {
+            letter2_index++;
+        }
+        if (letter1_ptr[line1_length - letter1_index] != letter2_ptr[line2_length - letter2_index]) {
+            return (int) (letter1_ptr[line1_length - letter1_index] - letter2_ptr[line2_length - letter2_index]);
+        }
+        else {
+            letter1_index++;
+            letter2_index++;
+            continue;
+        }
+    }
+    return 0;
 }
 
 int custom_qsort(void* array, size_t el_count, size_t el_size, compare_func_t compare_func) {
     assert(array);
     assert(compare_func);
 
+    partition(array, el_count, el_size, compare_func);
+
+    return 0;
+}
+
+int is_letter(const char symbol) {
+    return (symbol >= 'A' && symbol <= 'Z' || symbol >= 'a' && symbol <= 'z');
+}
+
+int is_apostrophe(const char symbol) {
+    return (symbol == '\'');
+}
+
+int partition(void* array, size_t el_count, size_t el_size, compare_func_t compare_func) {
     if (el_count == 1) {
         return 0;
     }
 
-    // TODO write separate case for 2 elems
-
-    size_t left_side = 0;
+    size_t left_side  = 0;
     size_t right_side = el_count - 1;
-    //size_t separator = rand() % el_count;
-    size_t separator = el_count / 2;
+    size_t separator  = el_count / 2;
 
-    // TODO partition function
     while (left_side < right_side) {
         while (compare_func (array + left_side * el_size, array + separator * el_size) < 0 && left_side < el_count) {
             left_side++;

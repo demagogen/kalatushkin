@@ -6,7 +6,7 @@
 #include "utils.h"
 #include "color_scheme.h"
 
-#define ull unsigned long long
+#define ULL unsigned long long
 
 int delete_extra_spaces(TEXT_DATA *text_data, size_t start_digit_index, size_t line_pointer_index) {
     assert(text_data);
@@ -22,9 +22,11 @@ int delete_extra_spaces(TEXT_DATA *text_data, size_t start_digit_index, size_t l
     while (text_data->text[check_digit_index] == ' '  ||
            text_data->text[check_digit_index] == '\'') { // TODO iswhitespace()
            check_digit_index++;
-           }
-    text_data->LineData[line_pointer_index].lines_pointers =         &(text_data->text[check_digit_index] );
-    text_data->LineData[line_pointer_index].lines_lengths  = strlen( &(text_data->text[check_digit_index]));
+    }
+    text_data->LineData[line_pointer_index].lines_pointers      =         &(text_data->text[check_digit_index] );
+    text_data->LineData[line_pointer_index].lines_lengths       = strlen( &(text_data->text[check_digit_index]));
+    text_data->LineData[line_pointer_index].lines_ends_pointers = &(text_data->text[check_digit_index +
+                                                                    text_data->LineData[line_pointer_index].lines_lengths - 1]);
 
     return 0;
 }
@@ -62,38 +64,38 @@ int swap(void *value1, void *value2, size_t size) {
     assert(value2);
     assert(size);
 
-    ull* array_ull1 = (ull* ) value1;
-    ull* array_ull2 = (ull* ) value2;
-    size_t iteration_number = size / sizeof(ull); // TODO iteration_number - bad naming
+    ULL* array_ULL1 = (ULL* ) value1;
+    ULL* array_ULL2 = (ULL* ) value2;
+    size_t ULL_bytes = size / sizeof(ULL);
 
-    for (size_t index = 0; index < iteration_number; index++) { // TODO byte_index
-        ull buffer        = array_ull1[index];
-        array_ull1[index] = array_ull2[index];
-        array_ull2[index] = buffer;
+    for (size_t index = 0; index < ULL_bytes; index++) {
+        ULL buffer        = array_ULL1[index];
+        array_ULL1[index] = array_ULL2[index];
+        array_ULL2[index] = buffer;
     }
 
-    if ((size - iteration_number * sizeof(ull)) / sizeof(int) == 1) {
-        int* array_int1 = (int* ) ((int* ) array_ull1 + sizeof(ull) * iteration_number);
-        int* array_int2 = (int* ) ((int* ) array_ull2 + sizeof(ull) * iteration_number);
-        int buffer    = array_int1[0];
-        array_int1[0] = array_int2[0];
-        array_int2[0] = buffer;
+    if ((size - ULL_bytes * sizeof(ULL)) / sizeof(int) == 1) {
+        int* array_INT1 = (int* ) ((int* ) array_ULL1 + sizeof(ULL) * ULL_bytes);
+        int* array_INT2 = (int* ) ((int* ) array_ULL2 + sizeof(ULL) * ULL_bytes);
+        int buffer    = array_INT1[0];
+        array_INT1[0] = array_INT2[0];
+        array_INT2[0] = buffer;
     }
 
-    if ((size - iteration_number * sizeof(ull) - sizeof(int)) / sizeof(short int) == 1) {
-        short int* array_sint1 = (short int* ) ((short int* ) array_ull1 + sizeof(ull) * iteration_number + sizeof(int));
-        short int* array_sint2 = (short int* ) ((short int* ) array_ull2 + sizeof(ull) * iteration_number + sizeof(int));
-        short int buffer = array_sint1[0];
-        array_sint1[0]   = array_sint2[0];
-        array_sint2[0]   = buffer;
+    if ((size - ULL_bytes * sizeof(ULL) - sizeof(int)) / sizeof(short int) == 1) {
+        short int* array_SINT1 = (short int* ) ((short int* ) array_ULL1 + sizeof(ULL) * ULL_bytes + sizeof(int));
+        short int* array_SINT2 = (short int* ) ((short int* ) array_ULL2 + sizeof(ULL) * ULL_bytes + sizeof(int));
+        short int buffer = array_SINT1[0];
+        array_SINT1[0]   = array_SINT2[0];
+        array_SINT2[0]   = buffer;
     }
 
-    if ((size - iteration_number * sizeof(ull) - sizeof(int) - sizeof(short int)) / sizeof(char) == 1) {
-        char* array_char1 = (char* ) ((char* ) array_ull1 + sizeof(ull) * iteration_number + sizeof(int) + sizeof(short int));
-        char* array_char2 = (char* ) ((char* ) array_ull2 + sizeof(ull) * iteration_number + sizeof(int) + sizeof(short int));
-        char buffer    = array_char1[0];
-        array_char1[0] = array_char2[0];
-        array_char2[0] = buffer;
+    if ((size - ULL_bytes * sizeof(ULL) - sizeof(int) - sizeof(short int)) / sizeof(char) == 1) {
+        char* array_CHAR1 = (char* ) ((char* ) array_ULL1 + sizeof(ULL) * ULL_bytes + sizeof(int) + sizeof(short int));
+        char* array_CHAR2 = (char* ) ((char* ) array_ULL2 + sizeof(ULL) * ULL_bytes + sizeof(int) + sizeof(short int));
+        char buffer    = array_CHAR1[0];
+        array_CHAR1[0] = array_CHAR2[0];
+        array_CHAR2[0] = buffer;
     }
 
     return 0;

@@ -14,7 +14,7 @@ struct TEXT_DATA {
     char  *text           = NULL;
 };
 
-int count_digits             (FILE *file_handle, TEXT_DATA *text_data);
+int count_symbols            (FILE *file_handle, TEXT_DATA *text_data);
 int separate_text_on_strings (TEXT_DATA *text_data);
 int sort_endings             (TEXT_DATA *text_data);
 int fill_text                (FILE *fp, TEXT_DATA *text_data);
