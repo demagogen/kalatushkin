@@ -1,3 +1,5 @@
+#pragma GCC diagnostic ignored "-Wpointer-arith"
+
 #include <cstddef>
 #include <stdlib.h>
 #include <assert.h>
