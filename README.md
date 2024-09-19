@@ -2,7 +2,7 @@
 
 <style>
   body {
-    background-image: url('matuk1_pushkin.jpg');
+    background-image: url('https://github.com/demagogen/kalatushkin/blob/main/pushkin_kachok.jpg');
     background-repeat: no-repeat;
     background-size: cover;
   }
