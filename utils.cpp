@@ -5,6 +5,7 @@
 
 #include "utils.h"
 #include "color_scheme.h"
+;
 
 #define ULL unsigned long long
 
