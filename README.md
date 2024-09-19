@@ -3,5 +3,4 @@
 
 # Калатушкин
 
-<img src="https://github.com/demagogen/kalatushkin/blob/main/pushkin_kachok.jpg" width="500">
-![alt text](https://github.com/demagogen/kalatushkin/blob/main/pushkin_kachok.jpg)
+<img src="https://github.com/demagogen/kalatushkin/blob/main/pushkin_kachok.jpg" width="1000">
