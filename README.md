@@ -3,4 +3,4 @@
 
 # Калатушкин
 
-![alt text](https://raw.githubusercontent.com/username/projectname/commit/img.png)
+![alt text](https://github.com/demagogen/kalatushkin/blob/main/pushkin_kachok.jpg)
