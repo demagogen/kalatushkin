@@ -10,13 +10,11 @@
 int delete_extra_spaces(TEXT_DATA *text_data, size_t start_digit_index, size_t line_pointer_index) {
     assert(text_data);
 
-    ERROR_DATA error_inf = PROGRAM_ERROR;
     if (!text_data) {
-        error_inf = MEMORY_ERROR;
-        error_data_enum(error_inf);
         graphic_printf(RED, BOLD, "*text_data uint64_t pointer in delete_extra_spaces\n");
-        return -1;
+        return ALLOCATION_ERROR;
     }
+
     size_t check_digit_index = start_digit_index + 1;
     while (text_data->text[check_digit_index] == ' '  ||
            text_data->text[check_digit_index] == '\'' ||
@@ -33,28 +31,14 @@ int delete_extra_spaces(TEXT_DATA *text_data, size_t start_digit_index, size_t l
 
 const char* error_data_enum(ERROR_DATA error_inf){
     switch(error_inf) {
-        case PROGRAM_ERROR:
-            return "PROGRAM_ERROR";
-            break;
-
-        case INPUT_ERROR:
-            return "INPUT_ERROR";
-            break;
-
-        case MEMORY_ERROR:
-            return "MEMORY_ERROR";
-            break;
-
-        case FILE_ERROR:
-            return "FILE_ERROR";
-            break;
-
-        case ALLOCATION_ERROR:
-            return "ALLOCATION_ERROR";
-            break;
+        case PROGRAM_ERROR:    return "PROGRAM_ERROR";    break;
+        case INPUT_ERROR:      return "INPUT_ERROR";      break;
+        case MEMORY_ERROR:     return "MEMORY_ERROR";     break;
+        case FILE_ERROR:       return "FILE_ERROR";       break;
+        case ALLOCATION_ERROR: return "ALLOCATION_ERROR"; break;
 
         default:
-            return "UNKNOWN_ERROR";
+            assert(0 && "assert in error_data_enum");
             break;
     }
 }

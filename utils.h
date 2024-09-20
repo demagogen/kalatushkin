@@ -15,8 +15,8 @@ enum ERROR_DATA {
 
 const char* error_data_enum(ERROR_DATA error_inf);
 
-int delete_punctuation_endings(TEXT_DATA *text_data);
-int delete_extra_spaces(TEXT_DATA *text_data, size_t start_digit_index, size_t line_pointer_index);
-int swap(void *value1, void *value2, size_t size);
+int delete_punctuation_endings (TEXT_DATA *text_data);
+int delete_extra_spaces        (TEXT_DATA *text_data, size_t start_digit_index, size_t line_pointer_index);
+int swap                       (void *value1, void *value2, size_t size);
 
 #endif

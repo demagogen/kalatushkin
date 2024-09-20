@@ -12,16 +12,16 @@ int count_symbols(FILE *file_handle, TEXT_DATA *text_data) {
     assert(file_handle);
     assert(text_data);
 
-    ERROR_DATA error_info = PROGRAM_ERROR;
     if (!text_data) {
-        error_info = ALLOCATION_ERROR;
-        error_data_enum(error_info);
         graphic_printf(RED, BOLD, "*text_data null pointer in count_symbols\n");
-        return -1;
+        return ALLOCATION_ERROR;
     }
 
     fseek(file_handle, 0, SEEK_END);
-    text_data->digits = ftell(file_handle); // TODO error checks
+    text_data->digits = ftell(file_handle);
+    if (text_data->digits < 0) {
+        graphic_printf(RED, BOLD, "*text_data null pointer in count_symbols\n");
+    }
     fseek(file_handle, 0, SEEK_SET);
 
     return 0;
@@ -31,27 +31,20 @@ int fill_text(FILE *file_handle, TEXT_DATA *text_data) {
     assert(file_handle);
     assert(text_data);
 
-    ERROR_DATA error_info = PROGRAM_ERROR;
     if (!text_data) {
-        error_info = MEMORY_ERROR;
-        error_data_enum(error_info);
         graphic_printf(RED, BOLD, "*text_data null pointer in fill_text\n");
-        return -1;
+        return MEMORY_ERROR;
     }
     // TODO write macro
     if (!file_handle) {
-        error_info = MEMORY_ERROR;
-        error_data_enum(error_info);
         graphic_printf(RED, BOLD, "*fp null pointer in fill_text\n");
-        return -1;
+        return MEMORY_ERROR;
     }
 
     text_data->text = (char*) calloc(text_data->digits + 1, sizeof(char));
     if (!text_data->text) {
-        error_info = ALLOCATION_ERROR;
-        error_data_enum(error_info);
         graphic_printf(RED, BOLD, "calloc allocation error in fill_text\n");
-        return -1;
+        return ALLOCATION_ERROR;
     }
 
     fread(text_data->text, sizeof(char), text_data->digits, file_handle);
@@ -68,10 +61,8 @@ int separate_text_on_strings(TEXT_DATA *text_data) {
 
     ERROR_DATA error_info = PROGRAM_ERROR;
     if (!text_data) {
-        error_info = MEMORY_ERROR;
-        error_data_enum(error_info);
         graphic_printf(RED, BOLD, "*fp null pointer in separate_text_on_strings\n");
-        return -1;
+        return MEMORY_ERROR;
     }
     for (size_t digit_index = 0; digit_index < text_data->digits; digit_index++) {
         if (text_data->text[digit_index] == '\n') {
@@ -85,11 +76,9 @@ int separate_text_on_strings(TEXT_DATA *text_data) {
 int count_strings(TEXT_DATA *text_data) {
     assert(text_data);
 
-    ERROR_DATA error_info = PROGRAM_ERROR;
     if (!text_data) {
-        error_info = MEMORY_ERROR;
-        error_data_enum(error_info);
-        return -1;
+        graphic_printf(RED, BOLD, "null pointer on text_data in count_strings");
+        return MEMORY_ERROR;
     }
 
     text_data->lines = -1;
@@ -102,16 +91,12 @@ int count_strings(TEXT_DATA *text_data) {
     return 0;
 }
 
-//TODO add ends pointers in structure!!!
-
 int fill_lines_pointers(TEXT_DATA *text_data) {
     assert(text_data);
 
-    ERROR_DATA error_info = PROGRAM_ERROR;
     if (!text_data) {
-        error_info = MEMORY_ERROR;
-        error_data_enum(error_info);
-        return -1;
+        graphic_printf(RED, BOLD, "null pointer error in fill_lines_pointers");
+        return MEMORY_ERROR;
     }
     size_t line_pointer_index = 0;
     text_data->LineData = (LINE_DATA*) calloc(text_data->digits, sizeof(LINE_DATA));
@@ -132,11 +117,9 @@ int print_text(FILE *file, TEXT_DATA *text_data) {
     assert(text_data);
     assert(file);
 
-    ERROR_DATA error_info = PROGRAM_ERROR;
     if (!text_data) {
-        error_info = MEMORY_ERROR;
-        error_data_enum(error_info);
-        return -1;
+        graphic_printf(RED, BOLD, "null pointer error in print_text");
+        return MEMORY_ERROR;
     }
 
     for (size_t line_index = 0; line_index < text_data->lines; line_index++) {

@@ -45,7 +45,8 @@ int parse_flags(int argc, const char *argv[]) {
             }
         }
     }
-    graphic_printf(RED, BOLD, "ААА, неверный флаг!!! АШЫПКА!!!\n"/*argv[enter_flags_counter]*/);
+    graphic_printf(RED, BOLD, "ААА, неверный флаг!!! АШЫПКА!!!\n");
+
     return -1;
 }
 
