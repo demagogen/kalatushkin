@@ -24,39 +24,20 @@ void change_color(COLOR color, STYLE style) {
     printf("\033[");
 
     switch(style) {
-        case RESET:
-            printf("0;");
-            break;
-
-        case BOLD:
-            printf("1;");
-            break;
-
-        case UNDERLINE:
-            printf("4;");
-            break;
-
-        case INVERSE:
-            printf("7;");
-            break;
-
-        case BOLD_OFF:
-            printf("21;");
-            break;
-
-        case UNDERLINE_OFF:
-            printf("24;");
-            break;
-
-        case INVERSE_OFF:
-            printf("27;");
-            break;
+        case RESET:         printf("0;");  break;
+        case BOLD:          printf("1;");  break;
+        case UNDERLINE:     printf("4;");  break;
+        case INVERSE:       printf("7;");  break;
+        case BOLD_OFF:      printf("21;"); break;
+        case UNDERLINE_OFF: printf("24;"); break;
+        case INVERSE_OFF:   printf("27;"); break;
 
         default:
+            assert(0 && "Invalid style");
             break;
     }
 
-    switch(color) {
+    switch(color) { // FIXME
         case BLACK:
             printf("30m");
             break;

@@ -21,7 +21,7 @@ int count_symbols(FILE *file_handle, TEXT_DATA *text_data) {
     }
 
     fseek(file_handle, 0, SEEK_END);
-    text_data->digits = ftell(file_handle);
+    text_data->digits = ftell(file_handle); // TODO error checks
     fseek(file_handle, 0, SEEK_SET);
 
     return 0;

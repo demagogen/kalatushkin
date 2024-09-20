@@ -1,5 +1,3 @@
-#pragma GCC diagnostic ignored "-Wpointer-arith"
-
 #include <cstddef>
 #include <stdlib.h>
 #include <assert.h>
@@ -16,7 +14,7 @@ int compare_strings_starts(const void *line_struct1, const void *line_struct2) {
 	assert(line_struct1 && "compare strings assert fucked up");
 	assert(line_struct2);
 
-    LINE_DATA_DEFINE(char*, letter1_ptr, line_struct1, lines_pointers);
+    LINE_DATA_DEFINE(char*, letter1_ptr, line_struct1, lines_pointers); // FIXME
     LINE_DATA_DEFINE(char*, letter2_ptr, line_struct2, lines_pointers);
 
     LINE_DATA_DEFINE(size_t, line1_length, line_struct1, lines_lengths);
@@ -86,6 +84,14 @@ int compare_pointers(const void* line_struct1, const void* line_struct2) {
     return (int) (line1_ptr - line2_ptr);
 }
 
+int is_letter(const char symbol) {
+    return (symbol >= 'A' && symbol <= 'Z' || symbol >= 'a' && symbol <= 'z');
+}
+
+int is_apostrophe(const char symbol) {
+    return (symbol == '\'');
+}
+
 int custom_qsort(void* array, size_t el_count, size_t el_size, compare_func_t compare_func) {
     assert(array);
     assert(compare_func);
@@ -95,33 +101,30 @@ int custom_qsort(void* array, size_t el_count, size_t el_size, compare_func_t co
     return 0;
 }
 
-int is_letter(const char symbol) {
-    return (symbol >= 'A' && symbol <= 'Z' || symbol >= 'a' && symbol <= 'z');
-}
-
-int is_apostrophe(const char symbol) {
-    return (symbol == '\'');
-}
 
 int partition(void* array, size_t el_count, size_t el_size, compare_func_t compare_func) {
+    assert(array        && "array assert in partition");
+    assert(compare_func && "compare_func assert in partition");
+
     if (el_count == 1) {
         return 0;
     }
 
     size_t left_side  = 0;
     size_t right_side = el_count - 1;
-    size_t separator  = el_count / 2;
+    //size_t separator  = el_count / 2;
+    size_t separator = rand() % (el_count - 1) + 1;
 
     while (left_side < right_side) {
-        while (compare_func (array + left_side * el_size, array + separator * el_size) < 0 && left_side < el_count) {
+        while (compare_func ((char* )array + left_side * el_size, (char* )array + separator * el_size) < 0 && left_side < el_count) {
             left_side++;
         }
-        while (compare_func (array + separator * el_size, array + right_side * el_size) < 0 && right_side > 0) {
+        while (compare_func ((char* )array + separator * el_size, (char* )array + right_side * el_size) < 0 && right_side > 0) {
             right_side--;
         }
 
         if (left_side <= right_side) {
-            swap(array + left_side * el_size, array + right_side * el_size, el_size);
+            swap((char* )array + left_side * el_size, (char* )array + right_side * el_size, el_size);
 
             if (separator == left_side) {
                 separator = right_side;
