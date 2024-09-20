@@ -26,7 +26,6 @@ int compare_strings_starts(const void *line_struct1, const void *line_struct2) {
     size_t letter2_index = 0;
 
     while (letter1_index < line1_length && letter2_index < line2_length) {
-        printf("%c %c\n", letter1_ptr[letter1_index], letter2_ptr[letter2_index]);
         while (!is_letter(letter1_ptr[letter1_index]) && !is_apostrophe(letter1_ptr[letter1_index])) {
             letter1_index++;
         }
@@ -75,6 +74,16 @@ int compare_strings_ends(const void* line_struct1, const void* line_struct2) {
         }
     }
     return 0;
+}
+
+int compare_pointers(const void* line_struct1, const void* line_struct2) {
+    assert(line_struct1);
+	assert(line_struct2);
+
+    LINE_DATA_DEFINE(char*, line1_ptr, line_struct1, lines_pointers);
+    LINE_DATA_DEFINE(char*, line2_ptr, line_struct2, lines_pointers);
+
+    return (int) (line1_ptr - line2_ptr);
 }
 
 int custom_qsort(void* array, size_t el_count, size_t el_size, compare_func_t compare_func) {

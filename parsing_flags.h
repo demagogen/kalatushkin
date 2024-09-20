@@ -12,13 +12,13 @@ struct FLAG {
     const char *description = NULL;
 };
 
-int version_flag(int argc, const char* argv[]);
-int help_flag(int argc, const char* argv[]);
-int sort_text_alphabet(int argc, const char* argv[]);
-int sort_text_rhyme(int argc, const char* argv[]);
-int special_for_ded(int argc, const char* argv[]);
+int version_flag       (int argc, const char* argv[]);
+int help_flag          (int argc, const char* argv[]);
+int sort_text_alphabet (int argc, const char* argv[]);
+int sort_text_rhyme    (int argc, const char* argv[]);
+int special_for_ded    (int argc, const char* argv[]);
 
-bool register_flag(const char *flag_short, const char *flag_long, FlagCallback callback, const char *description);
-int  parse_flags(int argc, const char* argv[]);
+bool register_flag     (const char *flag_short, const char *flag_long, FlagCallback callback, const char *description);
+int  parse_flags       (int argc, const char* argv[]);
 
 #endif

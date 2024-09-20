@@ -128,9 +128,24 @@ int special_for_ded(int argc, const char* argv[]) {
     FILE* input_file_handle  = NULL;
     FILE* output_file_handle = stdout;
 
+    if (argc == 3) {
+        input_file_handle = fopen(argv[2], "rb");
+        output_file_handle = fopen(argv[2], "a");
+        if (!input_file_handle) {
+            error_inf = FILE_ERROR;
+            error_data_enum(error_inf);
+            graphic_printf(RED, BOLD, "null pointer input_file_handle in main\n");
+            return -1;
+        }
+    }
+
     count_symbols  (input_file_handle, &TextData);
     fill_text      (input_file_handle, &TextData);
+    custom_qsort   (TextData.LineData, TextData.lines, sizeof(LINE_DATA), compare_strings_starts);
+    print_text     (output_file_handle, &TextData);
     custom_qsort   (TextData.LineData, TextData.lines, sizeof(LINE_DATA), compare_strings_ends);
+    print_text     (output_file_handle, &TextData);
+    custom_qsort   (TextData.LineData, TextData.lines, sizeof(LINE_DATA), compare_pointers);
     print_text     (output_file_handle, &TextData);
     free_text_data (&TextData);
 
