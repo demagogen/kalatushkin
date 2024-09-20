@@ -38,7 +38,7 @@ int fill_text(FILE *file_handle, TEXT_DATA *text_data) {
         graphic_printf(RED, BOLD, "*text_data null pointer in fill_text\n");
         return -1;
     }
-
+    // TODO write macro
     if (!file_handle) {
         error_info = MEMORY_ERROR;
         error_data_enum(error_info);

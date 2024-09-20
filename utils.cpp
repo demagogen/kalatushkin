@@ -6,7 +6,7 @@
 #include "utils.h"
 #include "color_scheme.h"
 
-
+// TODO use typedef or just uint64_t
 #define ULL unsigned long long
 
 int delete_extra_spaces(TEXT_DATA *text_data, size_t start_digit_index, size_t line_pointer_index) {
@@ -75,6 +75,8 @@ int swap(void *value1, void *value2, size_t size) {
         array_ULL1[index] = array_ULL2[index];
         array_ULL2[index] = buffer;
     }
+
+    // TODO use functional macros
 
     if ((size - ULL_bytes * sizeof(ULL)) / sizeof(int) == 1) {
         int* array_INT1 = (int* ) ((int* ) array_ULL1 + sizeof(ULL) * ULL_bytes);
