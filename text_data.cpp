@@ -102,6 +102,7 @@ int fill_lines_pointers(TEXT_DATA *text_data) {
     text_data->LineData = (LINE_DATA*) calloc(text_data->digits, sizeof(LINE_DATA));
     text_data->LineData[line_pointer_index].lines_pointers =        text_data->text;
     text_data->LineData[line_pointer_index].lines_lengths  = strlen(text_data->text);
+    line_pointer_index++;
 
     for (size_t digit_index = 0; digit_index < text_data->digits; digit_index++) {
         if (text_data->text[digit_index] == '\0') {
