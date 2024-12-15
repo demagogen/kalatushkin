@@ -6,8 +6,8 @@
 typedef int (*FlagCallback)(int argc, const char* argv[]);
 
 struct FLAG {
-    const char *flag_short                        = NULL;
-    const char *flag_long                         = NULL;
+    const char *flag_short                         = NULL;
+    const char *flag_long                          = NULL;
     int (*callback)(int argc, const char* argv[]) = 0;
     const char *description                       = NULL;
 };
